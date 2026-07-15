@@ -31,7 +31,7 @@ export default function App() {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [isQuickAddOpen, setIsQuickAddOpen] = useState(false);
 
-  // Connection State for Single User setup (loaded from local storage)
+  // Connection State setup (loaded from local storage)
   const [connection, setConnection] = useState<{ apiUrl: string; authKey: string } | null>(() => {
     const url = localStorage.getItem("finorganizer_api_url") || "";
     const key = localStorage.getItem("finorganizer_auth_key") || "";

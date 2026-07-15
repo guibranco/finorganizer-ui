@@ -76,7 +76,7 @@ export const ConnectionPortal: React.FC<ConnectionPortalProps> = ({ onConnect })
             <span className="font-bold tracking-wider text-xs uppercase text-slate-100">FinOrganizer.Ui</span>
           </div>
           <span className="text-[9px] font-mono font-semibold text-slate-500 uppercase bg-slate-950 px-2 py-0.5 rounded border border-[#27272a]">
-            Single-User Mode
+            Secure Mode
           </span>
         </div>
 
@@ -184,16 +184,24 @@ export const ConnectionPortal: React.FC<ConnectionPortalProps> = ({ onConnect })
           </div>
         </form>
 
-        {/* Footer info explaining Single-User details */}
+        {/* Self-hosting / Deploy Backend reference */}
         <div className="border-t border-[#27272a] pt-4 mt-2">
-          <div className="flex items-start gap-2 text-[10px] text-slate-500 leading-normal">
-            <HelpCircle className="w-3.5 h-3.5 text-slate-500 shrink-0 mt-0.5" />
+          <div className="flex items-start gap-2.5 text-[10px] text-slate-500 leading-normal">
+            <HelpCircle className="w-3.5 h-3.5 text-indigo-400 shrink-0 mt-0.5" />
             <div className="space-y-1">
-              <span className="font-semibold text-slate-400 block uppercase text-[9px] tracking-wider">No user profile needed</span>
+              <span className="font-semibold text-slate-300 block uppercase text-[9px] tracking-wider">Deploy Your Own Backend</span>
               <p>
-                FinOrganizer is designed for one person. It bypasses password sign-ups and multi-user overhead. 
-                Your self-hosted server url + auth key pair authorizes and secures your personal ledger immediately.
+                FinOrganizer is open-source and respects your privacy. You can host your own database and personal finance server. 
+                Deploy the backend project directly from the GitHub repository:
               </p>
+              <a 
+                href="https://github.com/guibranco/finorganizer-api" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="inline-flex items-center gap-1 text-indigo-400 hover:text-indigo-300 underline font-semibold mt-1 transition-colors break-all"
+              >
+                github.com/guibranco/finorganizer-api
+              </a>
             </div>
           </div>
         </div>

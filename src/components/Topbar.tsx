@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { 
   Menu, Clock, Server, Key, Eye, EyeOff, X, 
-  Settings, LogOut, Check, Wifi, RefreshCw 
+  Settings, LogOut, Check, Wifi, RefreshCw, HelpCircle 
 } from "lucide-react";
 import { useDashboardSummary } from "../api/queries";
 import { formatCurrency } from "../utils/format";
@@ -186,7 +186,7 @@ export const Topbar: React.FC<TopbarProps> = ({
                 </div>
                 <div className="flex justify-between items-center">
                   <span>Client Authority:</span>
-                  <span className="text-indigo-400 font-bold">Single-User Session</span>
+                  <span className="text-indigo-400 font-bold">Secure Session</span>
                 </div>
               </div>
 
@@ -228,6 +228,27 @@ export const Topbar: React.FC<TopbarProps> = ({
                   >
                     {showKey ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
                   </button>
+                </div>
+              </div>
+
+              {/* Self-hosting / Deploy Backend reference */}
+              <div className="border-t border-slate-800/80 pt-4 mt-2">
+                <div className="flex items-start gap-2 text-[10px] text-slate-500 leading-normal">
+                  <HelpCircle className="w-3.5 h-3.5 text-indigo-400 shrink-0 mt-0.5" />
+                  <div className="space-y-1">
+                    <span className="font-semibold text-slate-300 block uppercase text-[9px] tracking-wider">Self-Host Your Backend</span>
+                    <p>
+                      Need to update or deploy your own server? You can access the open-source backend API repository below to host your personal finance database:
+                    </p>
+                    <a 
+                      href="https://github.com/guibranco/finorganizer-api" 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="inline-flex items-center gap-1 text-indigo-400 hover:text-indigo-300 underline font-semibold mt-0.5 transition-colors break-all"
+                    >
+                      github.com/guibranco/finorganizer-api
+                    </a>
+                  </div>
                 </div>
               </div>
 
