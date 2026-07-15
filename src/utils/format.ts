@@ -28,7 +28,8 @@ export const formatDate = (dateString: string): string => {
   if (!dateString) return "";
   const date = new Date(dateString + "T00:00:00");
   if (isNaN(date.getTime())) return dateString;
-  return new Intl.DateTimeFormat(navigator.language || "en-US", {
+  const locale = typeof navigator !== "undefined" ? (navigator.language || "en-US") : "en-US";
+  return new Intl.DateTimeFormat(locale, {
     year: "numeric",
     month: "short",
     day: "numeric",
@@ -39,7 +40,8 @@ export const formatMonth = (monthString: string): string => {
   if (!monthString) return "";
   const [year, month] = monthString.split("-");
   const date = new Date(parseInt(year), parseInt(month) - 1, 1);
-  return new Intl.DateTimeFormat(navigator.language || "en-US", {
+  const locale = typeof navigator !== "undefined" ? (navigator.language || "en-US") : "en-US";
+  return new Intl.DateTimeFormat(locale, {
     year: "numeric",
     month: "long",
   }).format(date);
