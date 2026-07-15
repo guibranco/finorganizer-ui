@@ -183,7 +183,7 @@ export const Dashboard: React.FC = () => {
                 <Tooltip 
                   contentStyle={{ backgroundColor: "#0f172a", border: "1px solid #1e293b", borderRadius: "12px" }}
                   labelStyle={{ color: "#94a3b8", fontWeight: "bold" }}
-                  formatter={(val: number) => [formatCurrency(val, "EUR"), "Net Worth"]}
+                  formatter={(val: any) => [formatCurrency(val, "EUR"), "Net Worth"]}
                 />
                 <Area type="monotone" dataKey="amount" stroke="#6366f1" strokeWidth={2} fillOpacity={1} fill="url(#colorNetWorth)" />
               </AreaChart>
@@ -203,7 +203,7 @@ export const Dashboard: React.FC = () => {
                 <Tooltip 
                   contentStyle={{ backgroundColor: "#0f172a", border: "1px solid #1e293b", borderRadius: "12px" }}
                   labelStyle={{ color: "#94a3b8" }}
-                  formatter={(val: number) => [formatCurrency(val, "EUR")]}
+                  formatter={(val: any) => [formatCurrency(val, "EUR")]}
                 />
                 <Legend verticalAlign="top" height={36} iconType="circle" wrapperStyle={{ fontSize: "11px" }} />
                 <Bar dataKey="income" name="Income" fill="#10b981" radius={[4, 4, 0, 0]} barSize={12} />
@@ -233,7 +233,7 @@ export const Dashboard: React.FC = () => {
                 <Tooltip 
                   contentStyle={{ backgroundColor: "#0f172a", border: "1px solid #1e293b", borderRadius: "12px" }}
                   labelStyle={{ color: "#94a3b8" }}
-                  formatter={(val: number) => [formatCurrency(val, "EUR"), "Dividends"]}
+                  formatter={(val: any) => [formatCurrency(val, "EUR"), "Dividends"]}
                 />
                 <Line type="monotone" dataKey="amount" stroke="#10b981" strokeWidth={2.5} dot={{ r: 3 }} activeDot={{ r: 5 }} />
               </LineChart>
@@ -262,7 +262,7 @@ export const Dashboard: React.FC = () => {
                 </Pie>
                 <Tooltip 
                   contentStyle={{ backgroundColor: "#0f172a", border: "1px solid #1e293b", borderRadius: "12px" }}
-                  formatter={(val: number) => [formatCurrency(val, "EUR")]}
+                  formatter={(val: any) => [formatCurrency(val, "EUR")]}
                 />
               </PieChart>
             </ResponsiveContainer>
@@ -299,7 +299,7 @@ export const Dashboard: React.FC = () => {
                 </Pie>
                 <Tooltip 
                   contentStyle={{ backgroundColor: "#0f172a", border: "1px solid #1e293b", borderRadius: "12px" }}
-                  formatter={(val: number) => [formatCurrency(val, "EUR")]}
+                  formatter={(val: any) => [formatCurrency(val, "EUR")]}
                 />
               </PieChart>
             </ResponsiveContainer>

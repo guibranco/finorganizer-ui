@@ -307,7 +307,7 @@ export const Planning: React.FC = () => {
                 <Tooltip
                   contentStyle={{ backgroundColor: "#0f172a", border: "1px solid #1e293b", borderRadius: "12px" }}
                   labelStyle={{ color: "#94a3b8" }}
-                  formatter={(val: number) => [formatCurrency(val, "EUR"), "Projected Balance"]}
+                  formatter={(val: any) => [formatCurrency(val, "EUR"), "Projected Balance"]}
                 />
                 <Area type="monotone" dataKey="balance" stroke="#10b981" strokeWidth={2} fillOpacity={1} fill="url(#colorProj)" />
               </AreaChart>

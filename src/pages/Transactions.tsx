@@ -390,7 +390,7 @@ export const Transactions: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-900">
-                  {txData.items.map((tx) => {
+                  {txData.items.map((tx: any) => {
                     const acc = accounts.find(a => a.id === tx.accountId);
                     const currency = acc?.currency || "EUR";
 

@@ -95,7 +95,7 @@ export const AccountDetail: React.FC = () => {
                   <Tooltip
                     contentStyle={{ backgroundColor: "#0f172a", border: "1px solid #1e293b", borderRadius: "12px" }}
                     labelStyle={{ color: "#94a3b8" }}
-                    formatter={(val: number) => [formatCurrency(val, account.currency), "Balance"]}
+                    formatter={(val: any) => [formatCurrency(val, account.currency), "Balance"]}
                   />
                   <Area type="monotone" dataKey="balance" stroke="#10b981" strokeWidth={2} fillOpacity={1} fill="url(#colorBalance)" />
                 </AreaChart>
@@ -161,7 +161,7 @@ export const AccountDetail: React.FC = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-900">
-                {txData.items.map((tx) => (
+                {txData.items.map((tx: any) => (
                   <tr key={tx.id} className="group hover:bg-slate-950/30 transition-all">
                     <td className="py-3.5 px-4 font-mono text-xs text-slate-400">{formatDate(tx.date)}</td>
                     <td className="py-3.5 px-4 text-slate-200 font-medium">
