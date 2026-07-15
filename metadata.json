@@ -1,0 +1,6 @@
+{
+  "name": "FinOrganizer.Ui",
+  "description": "A high-performance personal finance dashboard featuring multi-currency accounting, asset portfolio tracking, automated cash flow forecasting, and inline budget analysis.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

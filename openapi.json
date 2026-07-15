@@ -1,0 +1,1126 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "FinOrganizer.Api",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/dashboard/summary": {
+      "get": {
+        "operationId": "getDashboardSummary",
+        "responses": {
+          "200": {
+            "description": "Dashboard summary metrics",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DashboardSummary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/accounts": {
+      "get": {
+        "operationId": "getAccounts",
+        "responses": {
+          "200": {
+            "description": "List of accounts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Account"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "createAccount",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAccountDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Account created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Account"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/accounts/{id}": {
+      "put": {
+        "operationId": "updateAccount",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAccountDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Account updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Account"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "archiveAccount",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "204": { "description": "Account archived" }
+        }
+      }
+    },
+    "/api/accounts/{id}/history": {
+      "get": {
+        "operationId": "getAccountHistory",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Balance history",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BalanceHistoryItem"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/transactions": {
+      "get": {
+        "operationId": "getTransactions",
+        "parameters": [
+          { "name": "startDate", "in": "query", "schema": { "type": "string" } },
+          { "name": "endDate", "in": "query", "schema": { "type": "string" } },
+          { "name": "accountId", "in": "query", "schema": { "type": "string" } },
+          { "name": "category", "in": "query", "schema": { "type": "string" } },
+          { "name": "type", "in": "query", "schema": { "type": "string" } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } },
+          { "name": "page", "in": "query", "schema": { "type": "integer" } },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated transactions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedTransactions"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "createTransaction",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTransactionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Transaction created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Transaction"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/transactions/{id}": {
+      "put": {
+        "operationId": "updateTransaction",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTransactionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Transaction updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Transaction"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteTransaction",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "204": { "description": "Transaction deleted" }
+        }
+      }
+    },
+    "/api/transactions/import": {
+      "post": {
+        "operationId": "importTransactions",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CsvImportRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Transactions imported",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/categories": {
+      "get": {
+        "operationId": "getCategories",
+        "responses": {
+          "200": {
+            "description": "List of categories",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Category"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "createCategory",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CategoryDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Category created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/categories/{id}": {
+      "put": {
+        "operationId": "updateCategory",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CategoryDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Category updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteCategory",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "204": { "description": "Category deleted" }
+        }
+      }
+    },
+    "/api/portfolio/positions": {
+      "get": {
+        "operationId": "getPortfolioPositions",
+        "parameters": [
+          { "name": "assetClass", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Portfolio positions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AssetPosition"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/portfolio/assets/{id}": {
+      "get": {
+        "operationId": "getAssetDetail",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Asset detail",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssetDetail"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/portfolio/events": {
+      "post": {
+        "operationId": "createAssetEvent",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAssetEventDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Event recorded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssetEvent"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/portfolio/prices": {
+      "post": {
+        "operationId": "recordPriceSnapshot",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PriceSnapshotDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Price snapshot recorded"
+          }
+        }
+      }
+    },
+    "/api/portfolio/income": {
+      "get": {
+        "operationId": "getPassiveIncome",
+        "responses": {
+          "200": {
+            "description": "Passive income data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PassiveIncomeItem"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/planning/budgets": {
+      "get": {
+        "operationId": "getBudgets",
+        "parameters": [
+          { "name": "month", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Budget items",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Budget"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "updateBudgetLimit",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateBudgetDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Budget updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Budget"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/planning/savings-goals": {
+      "get": {
+        "operationId": "getSavingsGoals",
+        "responses": {
+          "200": {
+            "description": "Savings goals",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SavingsGoal"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "createSavingsGoal",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SavingsGoalDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Savings goal created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SavingsGoal"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/planning/projection": {
+      "get": {
+        "operationId": "getCashFlowProjection",
+        "parameters": [
+          { "name": "horizonMonths", "in": "query", "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cash flow projection",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CashFlowProjection"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/recurrences": {
+      "get": {
+        "operationId": "getRecurrenceRules",
+        "responses": {
+          "200": {
+            "description": "Recurrence rules",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RecurrenceRule"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "createRecurrenceRule",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRecurrenceRuleDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Recurrence rule created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecurrenceRule"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/recurrences/{id}": {
+      "put": {
+        "operationId": "updateRecurrenceRule",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRecurrenceRuleDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Recurrence rule updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecurrenceRule"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteRecurrenceRule",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "204": { "description": "Recurrence rule deleted" }
+        }
+      }
+    },
+    "/api/recurrences/pending": {
+      "get": {
+        "operationId": "getPendingRecurrences",
+        "responses": {
+          "200": {
+            "description": "Pending recurrences",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PendingRecurrence"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/recurrences/pending/{id}/confirm": {
+      "post": {
+        "operationId": "confirmPendingRecurrence",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Confirmed and posted" }
+        }
+      }
+    },
+    "/api/recurrences/pending/{id}/skip": {
+      "post": {
+        "operationId": "skipPendingRecurrence",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Skipped recurrence instance" }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "DashboardSummary": {
+        "type": "object",
+        "properties": {
+          "netWorth": { "type": "number" },
+          "cashBalance": { "type": "number" },
+          "investedAmount": { "type": "number" },
+          "thisMonthNet": { "type": "number" },
+          "netWorthHistory": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "month": { "type": "string" },
+                "amount": { "type": "number" }
+              }
+            }
+          },
+          "incomeVsExpenses": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "month": { "type": "string" },
+                "income": { "type": "number" },
+                "expenses": { "type": "number" }
+              }
+            }
+          },
+          "passiveIncomeTrend": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "month": { "type": "string" },
+                "amount": { "type": "number" }
+              }
+            }
+          },
+          "trailing12MonthPassiveIncome": { "type": "number" },
+          "allocationByAssetClass": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "value": { "type": "number" }
+              }
+            }
+          },
+          "allocationByAccount": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "value": { "type": "number" }
+              }
+            }
+          }
+        },
+        "required": ["netWorth", "cashBalance", "investedAmount", "thisMonthNet", "netWorthHistory", "incomeVsExpenses", "passiveIncomeTrend", "trailing12MonthPassiveIncome", "allocationByAssetClass", "allocationByAccount"]
+      },
+      "Account": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "type": { "type": "string" },
+          "currency": { "type": "string" },
+          "balance": { "type": "number" },
+          "isArchived": { "type": "boolean" }
+        },
+        "required": ["id", "name", "type", "currency", "balance", "isArchived"]
+      },
+      "CreateAccountDto": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "type": { "type": "string" },
+          "currency": { "type": "string" },
+          "initialBalance": { "type": "number" }
+        },
+        "required": ["name", "type", "currency"]
+      },
+      "UpdateAccountDto": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "type": { "type": "string" },
+          "currency": { "type": "string" },
+          "isArchived": { "type": "boolean" }
+        },
+        "required": ["name", "type", "currency"]
+      },
+      "BalanceHistoryItem": {
+        "type": "object",
+        "properties": {
+          "date": { "type": "string" },
+          "balance": { "type": "number" }
+        },
+        "required": ["date", "balance"]
+      },
+      "Transaction": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "accountId": { "type": "string" },
+          "accountName": { "type": "string" },
+          "date": { "type": "string" },
+          "description": { "type": "string" },
+          "category": { "type": "string" },
+          "type": { "type": "string" },
+          "amount": { "type": "number" },
+          "toAccountId": { "type": "string" },
+          "toAccountName": { "type": "string" }
+        },
+        "required": ["id", "accountId", "date", "description", "category", "type", "amount"]
+      },
+      "CreateTransactionDto": {
+        "type": "object",
+        "properties": {
+          "accountId": { "type": "string" },
+          "date": { "type": "string" },
+          "description": { "type": "string" },
+          "category": { "type": "string" },
+          "type": { "type": "string" },
+          "amount": { "type": "number" },
+          "toAccountId": { "type": "string" }
+        },
+        "required": ["accountId", "date", "description", "category", "type", "amount"]
+      },
+      "UpdateTransactionDto": {
+        "type": "object",
+        "properties": {
+          "accountId": { "type": "string" },
+          "date": { "type": "string" },
+          "description": { "type": "string" },
+          "category": { "type": "string" },
+          "type": { "type": "string" },
+          "amount": { "type": "number" },
+          "toAccountId": { "type": "string" }
+        },
+        "required": ["accountId", "date", "description", "category", "type", "amount"]
+      },
+      "PaginatedTransactions": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Transaction" }
+          },
+          "totalCount": { "type": "integer" },
+          "page": { "type": "integer" },
+          "pageSize": { "type": "integer" },
+          "totalPages": { "type": "integer" }
+        },
+        "required": ["items", "totalCount", "page", "pageSize", "totalPages"]
+      },
+      "CsvImportRequest": {
+        "type": "object",
+        "properties": {
+          "accountId": { "type": "string" },
+          "mappings": {
+            "type": "object",
+            "properties": {
+              "date": { "type": "string" },
+              "description": { "type": "string" },
+              "category": { "type": "string" },
+              "amount": { "type": "string" },
+              "type": { "type": "string" }
+            }
+          },
+          "rows": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": { "type": "string" }
+            }
+          }
+        },
+        "required": ["accountId", "mappings", "rows"]
+      },
+      "Category": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "color": { "type": "string" },
+          "icon": { "type": "string" }
+        },
+        "required": ["id", "name", "color", "icon"]
+      },
+      "CategoryDto": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "color": { "type": "string" },
+          "icon": { "type": "string" }
+        },
+        "required": ["name", "color", "icon"]
+      },
+      "AssetPosition": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "ticker": { "type": "string" },
+          "name": { "type": "string" },
+          "assetClass": { "type": "string" },
+          "quantity": { "type": "number" },
+          "avgCost": { "type": "number" },
+          "invested": { "type": "number" },
+          "currentPrice": { "type": "number" },
+          "marketValue": { "type": "number" },
+          "unrealizedPl": { "type": "number" },
+          "unrealizedPlPercent": { "type": "number" },
+          "incomeReceived": { "type": "number" }
+        },
+        "required": ["id", "ticker", "assetClass", "quantity", "avgCost", "invested", "currentPrice", "marketValue", "unrealizedPl", "unrealizedPlPercent", "incomeReceived"]
+      },
+      "AssetDetail": {
+        "type": "object",
+        "properties": {
+          "position": { "$ref": "#/components/schemas/AssetPosition" },
+          "events": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/AssetEvent" }
+          },
+          "history": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "date": { "type": "string" },
+                "value": { "type": "number" }
+              }
+            }
+          },
+          "incomeHistory": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "date": { "type": "string" },
+                "amount": { "type": "number" }
+              }
+            }
+          }
+        },
+        "required": ["position", "events", "history", "incomeHistory"]
+      },
+      "AssetEvent": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "assetId": { "type": "string" },
+          "date": { "type": "string" },
+          "type": { "type": "string" },
+          "quantity": { "type": "number" },
+          "price": { "type": "number" },
+          "amount": { "type": "number" }
+        },
+        "required": ["id", "assetId", "date", "type", "quantity", "price", "amount"]
+      },
+      "CreateAssetEventDto": {
+        "type": "object",
+        "properties": {
+          "ticker": { "type": "string" },
+          "assetClass": { "type": "string" },
+          "date": { "type": "string" },
+          "type": { "type": "string" },
+          "quantity": { "type": "number" },
+          "price": { "type": "number" },
+          "amount": { "type": "number" }
+        },
+        "required": ["ticker", "assetClass", "date", "type", "quantity", "price", "amount"]
+      },
+      "PriceSnapshotDto": {
+        "type": "object",
+        "properties": {
+          "prices": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "ticker": { "type": "string" },
+                "price": { "type": "number" }
+              },
+              "required": ["ticker", "price"]
+            }
+          }
+        },
+        "required": ["prices"]
+      },
+      "PassiveIncomeItem": {
+        "type": "object",
+        "properties": {
+          "month": { "type": "string" },
+          "amount": { "type": "number" },
+          "breakdown": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "ticker": { "type": "string" },
+                "amount": { "type": "number" }
+              },
+              "required": ["ticker", "amount"]
+            }
+          }
+        },
+        "required": ["month", "amount", "breakdown"]
+      },
+      "Budget": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "category": { "type": "string" },
+          "limitAmount": { "type": "number" },
+          "spentAmount": { "type": "number" },
+          "month": { "type": "string" }
+        },
+        "required": ["id", "category", "limitAmount", "spentAmount", "month"]
+      },
+      "UpdateBudgetDto": {
+        "type": "object",
+        "properties": {
+          "category": { "type": "string" },
+          "limitAmount": { "type": "number" },
+          "month": { "type": "string" }
+        },
+        "required": ["category", "limitAmount", "month"]
+      },
+      "SavingsGoal": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "targetAmount": { "type": "number" },
+          "currentAmount": { "type": "number" },
+          "targetDate": { "type": "string" }
+        },
+        "required": ["id", "name", "targetAmount", "currentAmount", "targetDate"]
+      },
+      "SavingsGoalDto": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "targetAmount": { "type": "number" },
+          "currentAmount": { "type": "number" },
+          "targetDate": { "type": "string" }
+        },
+        "required": ["name", "targetAmount", "currentAmount", "targetDate"]
+      },
+      "CashFlowProjection": {
+        "type": "object",
+        "properties": {
+          "history": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "month": { "type": "string" },
+                "balance": { "type": "number" },
+                "net": { "type": "number" }
+              }
+            }
+          },
+          "upcoming": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "description": { "type": "string" },
+                "amount": { "type": "number" },
+                "type": { "type": "string" },
+                "dueDate": { "type": "string" }
+              }
+            }
+          }
+        },
+        "required": ["history", "upcoming"]
+      },
+      "RecurrenceRule": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "description": { "type": "string" },
+          "amount": { "type": "number" },
+          "type": { "type": "string" },
+          "frequency": { "type": "string" },
+          "nextDueDate": { "type": "string" },
+          "autoPost": { "type": "boolean" }
+        },
+        "required": ["id", "description", "amount", "type", "frequency", "nextDueDate", "autoPost"]
+      },
+      "CreateRecurrenceRuleDto": {
+        "type": "object",
+        "properties": {
+          "description": { "type": "string" },
+          "amount": { "type": "number" },
+          "type": { "type": "string" },
+          "frequency": { "type": "string" },
+          "nextDueDate": { "type": "string" },
+          "autoPost": { "type": "boolean" }
+        },
+        "required": ["description", "amount", "type", "frequency", "nextDueDate", "autoPost"]
+      },
+      "PendingRecurrence": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "recurrenceId": { "type": "string" },
+          "description": { "type": "string" },
+          "amount": { "type": "number" },
+          "dueDate": { "type": "string" },
+          "type": { "type": "string" },
+          "accountId": { "type": "string" }
+        },
+        "required": ["id", "recurrenceId", "description", "amount", "dueDate", "type"]
+      }
+    }
+  }
+}
