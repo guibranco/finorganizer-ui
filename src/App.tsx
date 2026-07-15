@@ -6,6 +6,7 @@ import { Sidebar } from "./components/Sidebar";
 import { Topbar } from "./components/Topbar";
 import { ToastProvider } from "./components/Toast";
 import { QuickAddModal } from "./components/QuickAddModal";
+import { ConnectionPortal } from "./components/ConnectionPortal";
 
 // Pages
 import { Dashboard } from "./pages/Dashboard";
@@ -30,6 +31,16 @@ export default function App() {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [isQuickAddOpen, setIsQuickAddOpen] = useState(false);
 
+  // Connection State for Single User setup (loaded from local storage)
+  const [connection, setConnection] = useState<{ apiUrl: string; authKey: string } | null>(() => {
+    const url = localStorage.getItem("finorganizer_api_url") || "";
+    const key = localStorage.getItem("finorganizer_auth_key") || "";
+    if (url && key) {
+      return { apiUrl: url, authKey: key };
+    }
+    return null;
+  });
+
   // Keyboard shortcut listener ('N' or 'n' opens Quick Add)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -50,6 +61,33 @@ export default function App() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
+  const handleConnect = (apiUrl: string, authKey: string) => {
+    localStorage.setItem("finorganizer_api_url", apiUrl);
+    localStorage.setItem("finorganizer_auth_key", authKey);
+    setConnection({ apiUrl, authKey });
+  };
+
+  const handleDisconnect = () => {
+    localStorage.removeItem("finorganizer_api_url");
+    localStorage.removeItem("finorganizer_auth_key");
+    setConnection(null);
+  };
+
+  const handleUpdateConnection = (apiUrl: string, authKey: string) => {
+    localStorage.setItem("finorganizer_api_url", apiUrl);
+    localStorage.setItem("finorganizer_auth_key", authKey);
+    setConnection({ apiUrl, authKey });
+  };
+
+  // If there's no active server URL and auth key, enforce connection setup first
+  if (!connection) {
+    return (
+      <ToastProvider>
+        <ConnectionPortal onConnect={handleConnect} />
+      </ToastProvider>
+    );
+  }
+
   return (
     <QueryClientProvider client={queryClient}>
       <ToastProvider>
@@ -64,7 +102,12 @@ export default function App() {
 
             {/* Main Workspace Panel */}
             <div className="flex-1 flex flex-col h-full overflow-hidden">
-              <Topbar onMobileOpen={() => setIsMobileSidebarOpen(true)} />
+              <Topbar 
+                onMobileOpen={() => setIsMobileSidebarOpen(true)} 
+                connection={connection}
+                onDisconnect={handleDisconnect}
+                onUpdateConnection={handleUpdateConnection}
+              />
               
               <main className="flex-1 overflow-y-auto p-4 md:p-5 lg:p-6">
                 <div className="max-w-7xl mx-auto pb-8">
