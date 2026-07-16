@@ -11,6 +11,9 @@ const getApiConfig = () => {
 };
 
 export const isApiConfigured = (): boolean => {
+  if (typeof window !== "undefined" && localStorage.getItem("finorganizer_use_mock") === "true") {
+    return false;
+  }
   const { url, key } = getApiConfig();
   return !!url && !!key;
 };
