@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Server, Key, Eye, EyeOff, Check, Wifi, AlertCircle, Activity, HelpCircle } from "lucide-react";
+import { Server, Key, Eye, EyeOff, Check, Wifi, AlertCircle, Activity, HelpCircle, FlaskConical } from "lucide-react";
 import { useToast } from "./Toast";
 
 interface ConnectionPortalProps {
@@ -58,6 +58,12 @@ export const ConnectionPortal: React.FC<ConnectionPortalProps> = ({ onConnect })
 
     onConnect(apiUrl.trim(), authKey.trim());
     showToast("Session initialized. Connected to personal server.", "success");
+  };
+
+  const handleEnableMock = () => {
+    localStorage.setItem("finorganizer_use_mock", "true");
+    onConnect("Mock Database", "mock-session");
+    showToast("Enabled Mock API Mode! Running with local sandbox database.", "success");
   };
 
   return (
@@ -180,6 +186,18 @@ export const ConnectionPortal: React.FC<ConnectionPortalProps> = ({ onConnect })
               className="flex-1 py-2 px-3 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold rounded-lg active:scale-98 disabled:opacity-50 shadow-lg shadow-indigo-600/10 transition-all"
             >
               Connect Session
+            </button>
+          </div>
+
+          {/* Try Offline Mock Button */}
+          <div className="border-t border-[#27272a] pt-3 mt-1">
+            <button
+              type="button"
+              onClick={handleEnableMock}
+              className="w-full flex items-center justify-center gap-1.5 py-2 px-3 bg-indigo-950/30 hover:bg-indigo-950/50 border border-indigo-900/50 hover:border-indigo-800 text-indigo-300 text-xs font-semibold rounded-lg active:scale-98 transition-all"
+            >
+              <FlaskConical className="w-3.5 h-3.5 text-indigo-400" />
+              Use Mock / Sandbox Mode
             </button>
           </div>
         </form>

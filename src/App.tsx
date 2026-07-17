@@ -33,6 +33,10 @@ export default function App() {
 
   // Connection State setup (loaded from local storage)
   const [connection, setConnection] = useState<{ apiUrl: string; authKey: string } | null>(() => {
+    const useMock = localStorage.getItem("finorganizer_use_mock") === "true";
+    if (useMock) {
+      return { apiUrl: "Mock Database", authKey: "mock-session" };
+    }
     const url = localStorage.getItem("finorganizer_api_url") || "";
     const key = localStorage.getItem("finorganizer_auth_key") || "";
     if (url && key) {
@@ -70,6 +74,7 @@ export default function App() {
   const handleDisconnect = () => {
     localStorage.removeItem("finorganizer_api_url");
     localStorage.removeItem("finorganizer_auth_key");
+    localStorage.removeItem("finorganizer_use_mock");
     setConnection(null);
   };
 
