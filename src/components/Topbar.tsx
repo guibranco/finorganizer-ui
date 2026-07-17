@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { 
   Menu, Clock, Server, Key, Eye, EyeOff, X, 
-  Settings, LogOut, Check, Wifi, RefreshCw, HelpCircle 
+  Settings, LogOut, Check, Wifi, RefreshCw, HelpCircle, FlaskConical 
 } from "lucide-react";
 import { useDashboardSummary } from "../api/queries";
 import { formatCurrency } from "../utils/format";
@@ -111,17 +111,30 @@ export const Topbar: React.FC<TopbarProps> = ({
           
           {/* Active Connection Indicator Pill (Desktop Only) */}
           {connection && (
-            <button
-              onClick={() => setIsModalOpen(true)}
-              className="hidden md:flex items-center gap-1.5 px-2 py-1 rounded-lg bg-emerald-500/5 border border-emerald-500/20 text-[10px] text-emerald-400 font-mono font-bold hover:bg-emerald-500/10 transition-colors"
-              title="Click to view API Server connection details"
-            >
-              <span className="relative flex h-1.5 w-1.5 shrink-0">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
-              </span>
-              <span>API LINKED</span>
-            </button>
+            localStorage.getItem("finorganizer_use_mock") === "true" ? (
+              <button
+                onClick={() => setIsModalOpen(true)}
+                className="hidden md:flex items-center gap-1.5 px-2 py-1 rounded-lg bg-amber-500/5 border border-amber-500/20 text-[10px] text-amber-400 font-mono font-bold hover:bg-amber-500/10 transition-colors"
+                title="Running in local sandbox mock database"
+              >
+                <span className="relative flex h-1.5 w-1.5 shrink-0">
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-amber-500"></span>
+                </span>
+                <span>MOCK ACTIVE</span>
+              </button>
+            ) : (
+              <button
+                onClick={() => setIsModalOpen(true)}
+                className="hidden md:flex items-center gap-1.5 px-2 py-1 rounded-lg bg-emerald-500/5 border border-emerald-500/20 text-[10px] text-emerald-400 font-mono font-bold hover:bg-emerald-500/10 transition-colors"
+                title="Click to view API Server connection details"
+              >
+                <span className="relative flex h-1.5 w-1.5 shrink-0">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+                </span>
+                <span>API LINKED</span>
+              </button>
+            )
           )}
 
           {/* Net Worth Spark Card (Desktop only) */}
@@ -176,8 +189,9 @@ export const Topbar: React.FC<TopbarProps> = ({
               <div className="p-3 rounded-lg bg-slate-950 border border-slate-800/80 font-mono text-[10px] text-slate-400 space-y-1.5">
                 <div className="flex justify-between items-center">
                   <span>Connection Status:</span>
-                  <span className="text-emerald-400 font-bold flex items-center gap-1">
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500"></span> Active (Latency: 18ms)
+                  <span className={`${localStorage.getItem("finorganizer_use_mock") === "true" ? "text-amber-400" : "text-emerald-400"} font-bold flex items-center gap-1`}>
+                    <span className={`h-1.5 w-1.5 rounded-full ${localStorage.getItem("finorganizer_use_mock") === "true" ? "bg-amber-500" : "bg-emerald-500"}`}></span>
+                    {localStorage.getItem("finorganizer_use_mock") === "true" ? "Active (Sandbox)" : "Active (Latency: 18ms)"}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
@@ -189,6 +203,56 @@ export const Topbar: React.FC<TopbarProps> = ({
                   <span className="text-indigo-400 font-bold">Secure Session</span>
                 </div>
               </div>
+
+              {/* Mock Mode Toggle / Banner */}
+              {localStorage.getItem("finorganizer_use_mock") === "true" ? (
+                <div className="p-3 rounded-lg bg-amber-500/5 border border-amber-500/20 text-xs text-amber-300 space-y-2">
+                  <div className="flex items-center gap-1.5 font-bold text-amber-400">
+                    <FlaskConical className="w-4 h-4 shrink-0 animate-pulse" />
+                    <span>Mock Sandbox Active</span>
+                  </div>
+                  <p className="text-[10px] text-slate-400 leading-normal font-mono font-normal">
+                    You are currently using the offline mock database. All finance logs and mutations are persisted locally in your browser.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      localStorage.setItem("finorganizer_use_mock", "false");
+                      const savedUrl = localStorage.getItem("finorganizer_api_url") || "";
+                      const savedKey = localStorage.getItem("finorganizer_auth_key") || "";
+                      if (savedUrl && savedKey && savedUrl !== "Mock Database") {
+                        onUpdateConnection(savedUrl, savedKey);
+                        showToast("Switched back to Live API mode!", "success");
+                      } else {
+                        onDisconnect();
+                        showToast("Disconnected Mock Mode. Please configure your live server credentials.", "info");
+                      }
+                      setIsModalOpen(false);
+                    }}
+                    className="w-full py-1 px-2 bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold text-xs rounded-lg transition-colors font-mono"
+                  >
+                    Switch to Live API Mode
+                  </button>
+                </div>
+              ) : (
+                <div className="p-3 rounded-lg bg-slate-950 border border-slate-800 text-[11px] text-slate-400 flex flex-col gap-2">
+                  <div className="flex justify-between items-center">
+                    <span>Testing without a live server?</span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        localStorage.setItem("finorganizer_use_mock", "true");
+                        onUpdateConnection("Mock Database", "mock-session");
+                        showToast("Switched to Mock API Mode!", "success");
+                        setIsModalOpen(false);
+                      }}
+                      className="py-1 px-2 bg-indigo-950 hover:bg-indigo-900 text-indigo-400 border border-indigo-900/60 font-semibold rounded-md transition-colors font-mono"
+                    >
+                      Enable Mock Mode
+                    </button>
+                  </div>
+                </div>
+              )}
 
               {/* Server URL */}
               <div className="space-y-1">
