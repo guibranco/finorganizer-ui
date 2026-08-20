@@ -1,0 +1,3 @@
+# Project originated in Google AI Studio
+
+This repo was originally scaffolded via Google AI Studio, which generates projects assuming a server-side Gemini API proxy (an Express server, `dotenv` config, and an `@google/genai` client). The app doesn't use any AI features and never grew a real server — those pieces were dead weight and have been removed (`@google/genai`, `express`, `dotenv`, `@types/express`, `metadata.json`, `.env.example`, and the now-unused `esbuild`/`tsx` bundler deps they pulled in). Recorded here so a future reader isn't puzzled by why a pure static SPA once had server-side AI dependencies.
