@@ -26,7 +26,7 @@
     "react-is": "^19.2.8",
     "react-router-dom": "^7.18.2",
     "recharts": "^3.10.1",
-    "vite": "^8.2.1",
+    "vite": "^8.2.2",
     "zod": "^4.4.3"
   },
   "devDependencies": {
@@ -39,7 +39,7 @@
     "openapi-typescript": "^7.6.1",
     "tailwindcss": "^4.3.3",
     "typescript": "~7.0.2",
-    "vite": "^8.2.1",
+    "vite": "^8.2.2",
     "vitest": "^4.1.10"
   }
 }
