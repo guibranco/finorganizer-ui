@@ -27,7 +27,7 @@
     "react-router-dom": "^7.18.3",
     "recharts": "^3.10.1",
     "vite": "^8.2.2",
-    "zod": "^4.4.3"
+    "zod": "^4.5.4"
   },
   "devDependencies": {
     "@types/node": "^26.4.0",
