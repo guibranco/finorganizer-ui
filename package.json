@@ -14,7 +14,7 @@
     "codegen:schema": "openapi-typescript http://localhost:5092/swagger/v1/swagger.json -o src/api/schema.d.ts"
   },
   "dependencies": {
-    "@hookform/resolvers": "^5.9.2",
+    "@hookform/resolvers": "^6.0.0",
     "@tailwindcss/vite": "^4.3.3",
     "@tanstack/react-query": "^5.105.0",
     "@vitejs/plugin-react": "^6.1.2",
